@@ -54,5 +54,10 @@ class Linter
     {
         // all checks go here
         $this->errors += Checker::checkTrailingWhitespace($contents, $filepath);
+        $this->errors += Checker::checkTrailingNewline($contents, $filepath);
+        $this->errors += Checker::checkMoreThanOneWhitespace($contents, $filepath);
+        $this->errors += Checker::containsComment($contents, $filepath);
+        $this->errors += Checker::checkLineLength($contents, $filepath);
+        $this->errors += Checker::checkIndentation($contents, $filepath);
     }
 }
