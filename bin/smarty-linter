@@ -1,0 +1,10 @@
+<?php
+
+use Legebeker\SmartyLinter\Linter;
+
+require file_exists(__DIR__ . '/../vendor/autoload.php')
+    ? __DIR__ . '/../vendor/autoload.php'
+    : __DIR__ . '/../../../../vendor/autoload.php';
+
+$check = new Linter;
+$check->run($argv);

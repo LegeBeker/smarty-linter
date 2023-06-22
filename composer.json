@@ -1,0 +1,24 @@
+{
+    "name": "legebeker/smarty-linter",
+    "version": "0.1.0",
+    "description": "A linter for smarty templates",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Legebeker\\SmartyLinter\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Volkan Welp",
+            "email": "volkanwelp@gmail.com"
+        }
+    ],
+    "bin": [
+        "bin/phpcodecomplexity"
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    }
+}
