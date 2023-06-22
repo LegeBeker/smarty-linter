@@ -2,11 +2,19 @@
 
 namespace Legebeker\SmartyLinter;
 
+use Legebeker\SmartyLinter\Checker;
+
 class Linter
 {
+    private int $errors = 0;
+    private string $basePath;
+
     public final function run($argv)
     {
+        echo 'Smarty Linter' . PHP_EOL;
+        $this->basePath = realpath(__DIR__ . '/../../../../');
         $this->checkFiles($argv);
+        echo 'Done. ' . $this->errors . ' errors found.' . PHP_EOL;
     }
 
     private function checkFiles($argv)
@@ -19,13 +27,32 @@ class Linter
 
     private function getFiles()
     {
-        return glob(__DIR__ . '/../../../*.tpl');
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($this->basePath, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        $templateFiles = [];
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getExtension() === 'tpl' && !strpos($file->getPathname(), '/vendor/')) {
+                $templateFiles[] = $file->getPathname();
+            }
+        }
+
+        return $templateFiles;
     }
 
     private function checkFile($file)
     {
-        echo $file . PHP_EOL;
-        // $contents = file_get_contents($file);
-        // $this->checkContents($contents);
+        $contents = file_get_contents($file);
+        $filepath = substr($file, strlen($this->basePath) + 1);
+
+        $this->checkContents($contents, $filepath);
+    }
+
+    private function checkContents($contents, $filepath)
+    {
+        // all checks go here
+        $this->errors += Checker::checkTrailingWhitespace($contents, $filepath);
     }
 }
